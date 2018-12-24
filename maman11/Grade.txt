@@ -1,0 +1,722 @@
+########################################################################################################################################
+## 
+
+For OS students,
+Following is a list of typical errors encountered in the assignments submitted by the course students. 
+While it might be, that your work has no problems from the mentioned bellow, you can find it educational to read the list.
+
+1. Please don't submit extra files like executable files etc'. Also extra foldering is really unnecessary.
+   Next times I'll penalize for it.
+2. Name of the make file MUST be Makefile or makefile only, no extensions.
+   Please verify that 'make' instruction compiles all the files (exe/lib) required by the certain maman.
+3. Name of executable file MUST conform the name required at maman description.
+4. Submit SINGLE ZIP file for the whole maman (including theory and the programming task).
+5. Theory: please submit SINGLE doc/rtf/pdf. English language is preferable. 
+   It can be uploaded at the same ZIP as the programming task as it have been mentioned above.
+6. Maman11 won't be penalized for late submission. Next mamans: 2 points of penalty for each extra day (except Sat).
+7. Please read very careful the maman description before start working on it.
+8. The programming task MUST be compiled and tested before the submission on the same OS version and same GCC as it mentioned in the coures requirements.
+   Othervise in some cases it may cause crash and improper behavior on my machine.
+   
+
+Good luck at OS course.
+
+Regards, Grader.
+
+########################################################################################################################################
+
+Programming task(70%):
+
+Well Done
+
+
+theoretical task(30%):
+2 10%  ok
+3 5%   ok
+4 5%   ok
+5 5%   ok
+
+
+
+============================================================================
+
+Answers:
+
+
+Question 2:
+1) The TRAP instruction switches from user mode to kernel mode and starts execution at fix 
+address within the kernel once the system call handler has completed its task the control 
+may be returned to the user mode by the TRAP instruction
+An interrupt is an asynchronous signal from hardware indicating the need for attention or 
+a synchronous event in software indicating the need for a change in execution. A hardware i
+nterrupt causes the processor to save its state of execution via a context switch, and begin 
+execution of an interrupt handler. Software interrupts are usually implemented as instructions 
+in the instruction set, which cause a context switch to an interrupt handler similar to a 
+hardware interrupt. TRAPS are used by a program to invoke system calls and switch to 
+kernel mode and back. 
+2) The parameters for write are stored in register. Then a TRAP instruction is sent,giving control 
+to the operating system so now we are in kernel mode. Then the system can perform IO. 
+3) Write - is a system call that is costly (it swings to kernel mode). printf() takes a string, 
+and transfers a formatted sequence of bytes to write using the stdout.
+
+Question 3:
+--------------------------------------------
+The solution violates condition 3: a process outside its critical section will not prevent another 
+process from entering its critical section. This condition is violated because there may be a case 
+where process 0 will be in the critical section, terminate it, and change the turn variable to 1. 
+But process 1 will still be in a non-critical section, and meanwhile process 0 again wants to perform the critical segment. 
+If so, process 0 can not perform the critical segment because turn = 1, 
+although process 1 is not currently using the critical section!
+
+
+Question 4:
+--------------------------------------------
+The article has two reasons why Pthreads does not formally describe the memory model and the semantics of parallelism: 
+1. Formal descriptions are not readable to most programmers. 
+2. Much of what was written about the memory was written about the hardware and not about the programmer.
+However, device developers explain that the memory model is that two processes must not access the same memory space at the same time. 
+Such mutual prevention will be done by means of functions intended for this purpose.
+
+
+Question 5:
+Peterson solution.
+--------------------------------------------
+  
+According to Peterson solution, the critical part is final and the process that goes in will go 
+out and let another process go in. Also the processes are generous, so when a process goes 
+in, it checks if there is another process that want to go in. Moreover, the process will not wait an 
+infinite time to enter the critical section, because the process that now in critical section makes it's 
+logic while the other process makes a busy wait on the while loop, and in the moment that the process 
+in critical section call leaveCriticalSection function, the waiting process immediately will enter the 
+critical section, because one of the while condition (interested[otherProcess]) will become false, end 
+the waiting process will enter the critical section.This time won't be infinite, and will not cause 
+starvation of the waiting in the while loop process, because there is an assumption that the process 
+that in the critical section will make it's instructions in final time (and not infinite).
+
+
+============================================================================
+
+/home/user/2018B/maman11/Unchecked/2019a-20594-11-324793900-20-1
+gcc -Wall  -L./ -m32  -c binsem.c
+ar rcu libbinsem.a binsem.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+ranlib libbinsem.a 
+gcc -Wall  -L./ -m32  -c ut.c
+ar rcu libut.a ut.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+ranlib libut.a 
+2019a-20594-11-324793900-20-1_ex11.pdf
+atomic.h
+binsem.c
+binsem.h
+binsem.o
+Grade.txt
+libbinsem.a
+libgtest.a
+libut.a
+macro.h
+Makefile
+Makefile.1
+ph.c
+ph.mk
+test_main.cpp
+test_run
+ut.c
+ut.h
+ut.o
+
+=====================================================================
+
+gcc -Wall -g -L./  -c binsem.c
+ar rcu libbinsem.a binsem.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+ranlib libbinsem.a 
+gcc -Wall -g -L./  -c ut.c
+ar rcu libut.a ut.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+ranlib libut.a 
+gcc -Wall -g -L./ ph.c -lbinsem -lut -o ph
+
+=====================================================================
+
+=====================================================================
+
+./test_run
+Running main() from gtest_main.cc
+[==========] Running 7 tests from 2 test cases.
+[----------] Global test environment set-up.
+[----------] 3 tests from BinsimTest
+[ RUN      ] BinsimTest.binsem_init
+[       OK ] BinsimTest.binsem_init (0 ms)
+[ RUN      ] BinsimTest.binsem_up
+[       OK ] BinsimTest.binsem_up (0 ms)
+[ RUN      ] BinsimTest.binsem_down
+[       OK ] BinsimTest.binsem_down (0 ms)
+[----------] 3 tests from BinsimTest (0 ms total)
+
+[----------] 4 tests from UtTest
+[ RUN      ] UtTest.ut_init
+[       OK ] UtTest.ut_init (2 ms)
+[ RUN      ] UtTest.ut_spawn_thread
+[       OK ] UtTest.ut_spawn_thread (0 ms)
+[ RUN      ] UtTest.ut_start
+Press CTRL-C to print the statistics and terminate
+test_main.cpp:183: Failure
+Value of: ut_start()
+  Actual: 0
+Expected: -1
+test_main.cpp:184: Failure
+Value of: gWasAlarmCalled
+  Actual: 1
+Expected: 0
+test_main.cpp:185: Failure
+Value of: gWasTimerCalled
+  Actual: 1
+Expected: 0
+Press CTRL-C to print the statistics and terminate
+test_main.cpp:191: Failure
+Value of: gWasAlarmCalled
+  Actual: 2
+Expected: 1
+test_main.cpp:192: Failure
+Value of: gWasTimerCalled
+  Actual: 2
+Expected: 1
+[  FAILED  ] UtTest.ut_start (0 ms)
+[ RUN      ] UtTest.ut_get_vtime
+Press CTRL-C to print the statistics and terminate
+in signal handler: switching from 0 to 1
+in signal handler: switching from 1 to 0
+[       OK ] UtTest.ut_get_vtime (0 ms)
+[----------] 4 tests from UtTest (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 2 test cases ran. (4 ms total)
+[  PASSED  ] 6 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] UtTest.ut_start
+
+
+
+
+=====================================================================
+
+
+
+-------------
+
+Executing: ./test_run 
+
+
+============= running test_run ============================
+
+Running main() from gtest_main.cc
+[==========] Running 7 tests from 2 test cases.
+[----------] Global test environment set-up.
+[----------] 3 tests from BinsimTest
+[ RUN      ] BinsimTest.binsem_init
+[       OK ] BinsimTest.binsem_init (0 ms)
+[ RUN      ] BinsimTest.binsem_up
+[       OK ] BinsimTest.binsem_up (0 ms)
+[ RUN      ] BinsimTest.binsem_down
+[       OK ] BinsimTest.binsem_down (0 ms)
+[----------] 3 tests from BinsimTest (0 ms total)
+
+[----------] 4 tests from UtTest
+[ RUN      ] UtTest.ut_init
+[       OK ] UtTest.ut_init (4 ms)
+[ RUN      ] UtTest.ut_spawn_thread
+[       OK ] UtTest.ut_spawn_thread (0 ms)
+[ RUN      ] UtTest.ut_start
+Press CTRL-C to print the statistics and terminate
+test_main.cpp:183: Failure
+Value of: ut_start()
+  Actual: 0
+Expected: -1
+test_main.cpp:184: Failure
+Value of: gWasAlarmCalled
+  Actual: 1
+Expected: 0
+test_main.cpp:185: Failure
+Value of: gWasTimerCalled
+  Actual: 1
+Expected: 0
+Press CTRL-C to print the statistics and terminate
+test_main.cpp:191: Failure
+Value of: gWasAlarmCalled
+  Actual: 2
+Expected: 1
+test_main.cpp:192: Failure
+Value of: gWasTimerCalled
+  Actual: 2
+Expected: 1
+[  FAILED  ] UtTest.ut_start (0 ms)
+[ RUN      ] UtTest.ut_get_vtime
+Press CTRL-C to print the statistics and terminate
+in signal handler: switching from 0 to 1
+in signal handler: switching from 1 to 0
+[       OK ] UtTest.ut_get_vtime (0 ms)
+[----------] 4 tests from UtTest (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 2 test cases ran. (5 ms total)
+[  PASSED  ] 6 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] UtTest.ut_start
+
+ 1 FAILED TEST
+=====================================================================
+------Code-----
+------alloc-----
+ph.c:  s = (sem_t *)malloc (N * sizeof(sem_t));
+ph.c:  phil_state = (int *) malloc (N * sizeof(int));
+ph.c:  tid = (int *) malloc (N * sizeof(int));
+ut.c:                      char* stack = (char*)malloc(sizeof(char) * STACKSIZE);/* allocate stack for thread */
+------free-----
+------open-----
+------close-----
+------fork-----
+ph.c:void take_forks(int i){
+ph.c:void put_forks(int i){
+ph.c:    take_forks(i);
+ph.c:    put_forks(i);
+------wait-----
+------signal-----
+binsem.c:#include <signal.h>
+ph.c:#include <signal.h>
+ph.c:  signal(SIGINT,int_handler);
+ut.c:#include <signal.h>
+ut.c:void handler(int signal) /* This is the signal handler which swaps between the threads demo2 + demo3 */ 
+ut.c:             if(SIGALRM == signal) 
+ut.c:             else if(SIGVTALRM == signal)
+ut.c:                sigaction(SIGALRM, &sa, NULL)< zero) /* Install the signal handler*/
+------SIGNAL-----
+
+
+=====================================================================
+
+
+
+------1-------
+
+Executing: ./ph 1
+
+Usage: ./ph N (N >=2)
+
+
+------2-------
+
+Executing: ./ph 2
+
+Thread table size is 0: Success
+Thread table size is 0: Invalid argument
+No threads in thread table to run: Invalid argument
+Spawned thread #-1
+Spawned thread #-1
+
+
+------32-------
+
+Executing: ./ph 32
+
+Thread table size is 0: Success
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+No threads in thread table to run: Invalid argument
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+
+
+------33-------
+
+Executing: ./ph 33
+
+Thread table size is 0: Success
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+No threads in thread table to run: Invalid argument
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+
+
+------128-------
+
+Executing: ./ph 128
+
+Thread table size is 0: Success
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+Thread table size is 0: Invalid argument
+No threads in thread table to run: Invalid argument
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
+Spawned thread #-1
