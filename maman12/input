@@ -1,0 +1,19 @@
+ls
+ps | wc -l
+find ../../.. -name Makefile -type f -print 
+find ../../.. -name Makefile -type f -print |cat
+cat /etc/passwd | wc -l
+cat /etc/passwd | wc -c
+chown -R root:root /tmp 
+cd ..
+ls
+cd -
+ls
+pwd
+cd .
+someErr
+someErr|cat
+ls -l|someErr
+cd someErr
+exit
+

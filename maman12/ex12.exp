@@ -1,0 +1,30 @@
+#!/usr/bin/expect
+
+#exp_internal 1
+
+set timeout 15
+
+spawn "./smash"
+
+expect "# " { send "sleep 10 &\r" }
+expect "sleep 10 &\r\n"
+expect -re "\\\[1] (\\d*)\\r\\n"
+
+expect "# " { send "sleep 10 &\r" }
+expect "sleep 10 &\r\n"
+expect -re "\\\[2] (\\d*)\\r\\n"
+
+expect "# " { send "sleep 10\r" }
+# send ^Z
+expect "sleep 10\r\n" { sleep 1 ; send "\x1A" }
+expect -re "\\^Z\r\n\\\[3] Stopped                sleep 10\r\n# " { send "jobs\r" }
+expect -re "jobs\r\n\\\[1] Running                sleep 10 &\r\n\\\[2] Running                sleep 10 &\r\n\\\[3] Stopped                sleep 10\r\n# " { send "bg\r" }
+expect -re ".*\r\n" { send "bg 1\r" }
+expect -re ".*\r\n" { send "bg 1 2\r" }
+expect -re ".*\r\n" { send "bg %4\r" }
+expect -re ".*\r\n" { send "bg %3\r" }
+expect "# " { send "jobs\r" }
+expect -re "jobs\r\n\\\[1] Running                sleep 10 &\r\n\\\[2] Running                sleep 10 &\r\n\\\[3] Running                sleep 10\r\n# " { send "fg %3\r" }
+expect "# " { send "exit\r" }
+
+interact
