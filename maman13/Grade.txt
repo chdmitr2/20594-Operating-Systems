@@ -1,0 +1,816 @@
+Programming task (80%):
+
+Can’t compile (bad/missed makefile, errors) -30
+compilation warnings -2
+application crashed, view core file -15
+
+Theoretical task (20%):
+2 (5%) ok
+3 (5%) ok
+4 (5%) ok
+5 (5%) ok
+
+
+--------------------------------------------------------------------------------------------
+
+Answers:
+
+Question 1. 
+a. The advantage of the LIFO scheduling strategy is that some portion of the requests
+(depending on the request frequency) will be served as soon as the previously processed
+request is done, resulting in a relatively short waiting time for those requests, as they are
+handled as soon as possible.
+b. The disadvantage of the LIFO scheduling strategy is double: it doesn’t optimize the
+order of requests with respect to the arm location required for each request, and under
+many circumstances might lead to starvation for some requests (as new requests are
+arriving all the time, preventing the scheduler from processing older requests).
+
+Question 2.
+At level 2 it means that a disk set with N disks of data, his smallest unit for reading will be of N blocks, that’s why 
+level 2 is better for working with large requests. 
+Also, you can locate the damaged disk in level 2, which isn't possible at level 3.
+
+
+Question 3. 
+Given that the size of the file can be between 4KB and 4 MB at any given moment, SO - the file size is not fixed and can change at any 
+moment whether it grow or decrease). Therefore, continuous allocation is rejected outright because its use is both internal and external. 
+Therefore, it remains to decide between FAT and i-node.
+Assumptions - block size is 4KB and block address size is 4B (32 bit).
+If we use the i-node (say in the most limited version - 10 direct access fields and one indirect field), 
+we can cover direct access to 40KB and at one indirect level we will cover:
+(4KB / 4B) * 4KB = (2 ^ 10) * 4KB = 4MB
+That is, at most we will need one level of indirect to cover the maximum file size.
+In FAT, however, I will need to maintain a linked list of 2 ^ 10 and access each block based on the same linked list,
+e.g. to get to the last block in the maximum file size I will have to go through all the 2 ^ 10 elements in the list.
+Therefore, we shall choose an i-node because it allows me to quickly access file and speed and flexibility in file maintenance
+since there is no need to maintain a linked list, only records in the table.
+
+
+Question 4. 
+There are three ways to protect Capabilities:
+-a- With a tagged architecture that requires hardware support, each memory word will be tagged with a tag that determines if 
+   the word contains capability or not. If so, changes to the word will be allowed only in privileged mode.
+-b- By saving the list of capabilities in the operating system itself => they will be loaded into the operating system memory space, 
+   so any change of record will only be possible in privileged mode.
+-c- Preserves the capabilities in the memory space but in encrypted form so that only the operating system can decrypt and modify the records. 
+   This method is usually suitable for distributed systems.
+
+--------------------------------------------------------------------------------------------
+/home/user/2018B/maman13/Unchecked/2019a-20594-13-324793900-20-1
+-------Make-----------
+/home/user/2018B/maman13/Unchecked/2019a-20594-13-324793900-20-1
+gcc -g -Wall  -c -DFLUSH_STDOUT='setvbuf(stdout,NULL,_IOLBF,BUFSIZ);' -DFLUSH_STDERR='setvbuf(stderr,NULL,_IOLBF,BUFSIZ);' -o my_format.o my_format.c
+gcc -g -Wall  my_format.o -o my_format -lm
+2019a-20594-13-324793900-20-1_ex13.pdf
+bt
+fat12.h
+floppy.img
+Grade.txt
+makefile
+makefile.bak
+my_format
+my_format.c
+my_format.o
+Screenshot from 2018-12-24 13-48-56.png
+Test_mmn13.sh
+------END Make---------
+
+
+
+-------------
+
+Executing: ./Test_mmn13.sh 
+
++ sudo chmod -R 777 .
++ sudo ulimit
+sudo: ulimit: command not found
++ ulimit -a
+core file size          (blocks, -c) 1000000
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 7703
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 2048
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 7703
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
++ ./my_format floppy.img
+sector_size: 512
+sectors_per_cluster: 1
+reserved_sector_count: 1
+number_of_fats: 2
+number_of_dirents: 224
+sector_count: 2880
++ mkdir mntpoint
++ sudo mount -o loop,uid=user,gid=user floppy.img mntpoint/
++ grep mntpoint
++ mount
+/home/user/2018B/maman13/Unchecked/2019a-20594-13-324793900-20-1/floppy.img on /home/user/2018B/maman13/Unchecked/2019a-20594-13-324793900-20-1/mntpoint type vfat (rw,relatime,uid=1000,gid=1000,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
++ mount
++ grep fat
++ grep mntpoint
+/home/user/2018B/maman13/Unchecked/2019a-20594-13-324793900-20-1/floppy.img on /home/user/2018B/maman13/Unchecked/2019a-20594-13-324793900-20-1/mntpoint type vfat (rw,relatime,uid=1000,gid=1000,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
++ (( a=0 ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_0
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_1
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_2
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_3
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_4
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_5
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_6
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_7
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_8
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_9
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_10
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_11
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_12
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_13
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_14
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_15
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_16
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_17
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_18
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_19
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_20
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_21
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_22
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_23
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_24
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_25
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_26
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_27
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_28
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_29
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_30
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_31
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_32
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_33
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_34
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_35
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_36
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_37
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_38
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_39
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_40
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_41
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_42
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_43
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_44
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_45
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_46
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_47
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_48
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_49
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_50
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_51
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_52
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_53
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_54
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_55
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_56
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_57
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_58
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_59
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_60
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_61
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_62
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_63
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_64
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_65
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_66
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_67
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_68
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_69
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_70
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_71
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_72
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_73
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_74
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_75
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_76
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_77
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_78
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_79
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_80
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_81
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_82
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_83
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_84
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_85
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_86
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_87
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_88
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_89
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_90
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_91
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_92
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_93
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_94
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_95
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_96
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_97
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_98
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_99
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_100
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_101
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_102
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_103
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_104
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_105
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_106
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_107
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_108
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ mkdir mntpoint/dir_109
++ echo 'Hello world'
++ (( a++ ))
++ (( a < 110  ))
++ wc -l
++ ls -altrh mntpoint/
+113
++ sudo umount mntpoint/
++ sudo mount -o loop,uid=user,gid=user floppy.img mntpoint/
++ ls -altrh mntpoint/
+total 66K
+drwxr-xr-x 112 user user 7.0K Dec 31  1969 .
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_7
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_6
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_5
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_4
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_3
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_2
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_1
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_0
+drwxrwxrwx   3 user user 4.0K Jan 18 14:15 ..
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_99
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_98
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_97
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_96
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_95
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_94
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_93
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_92
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_91
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_90
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_9
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_89
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_88
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_87
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_86
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_85
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_84
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_83
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_82
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_81
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_80
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_8
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_79
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_78
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_77
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_76
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_75
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_74
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_73
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_72
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_71
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_70
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_69
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_68
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_67
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_66
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_65
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_64
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_63
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_62
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_61
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_60
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_59
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_58
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_57
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_56
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_55
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_54
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_53
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_52
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_51
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_50
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_49
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_48
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_47
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_46
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_45
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_44
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_43
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_42
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_41
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_40
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_39
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_38
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_37
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_36
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_35
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_34
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_33
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_32
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_31
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_30
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_29
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_28
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_27
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_26
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_25
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_24
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_23
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_22
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_21
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_20
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_19
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_18
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_17
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_16
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_15
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_14
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_13
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_12
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_11
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_109
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_108
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_107
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_106
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_105
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_104
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_103
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_102
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_101
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_100
+drwxr-xr-x   2 user user  512 Jan 18 14:15 dir_10
++ wc -l
++ ls -altrh mntpoint/
+113
++ cat mntpoint/dir_0/foo mntpoint/dir_100/foo mntpoint/dir_101/foo mntpoint/dir_102/foo mntpoint/dir_103/foo mntpoint/dir_104/foo mntpoint/dir_105/foo mntpoint/dir_106/foo mntpoint/dir_107/foo mntpoint/dir_108/foo mntpoint/dir_109/foo mntpoint/dir_10/foo mntpoint/dir_11/foo mntpoint/dir_12/foo mntpoint/dir_13/foo mntpoint/dir_14/foo mntpoint/dir_15/foo mntpoint/dir_16/foo mntpoint/dir_17/foo mntpoint/dir_18/foo mntpoint/dir_19/foo mntpoint/dir_1/foo mntpoint/dir_20/foo mntpoint/dir_21/foo mntpoint/dir_22/foo mntpoint/dir_23/foo mntpoint/dir_24/foo mntpoint/dir_25/foo mntpoint/dir_26/foo mntpoint/dir_27/foo mntpoint/dir_28/foo mntpoint/dir_29/foo mntpoint/dir_2/foo mntpoint/dir_30/foo mntpoint/dir_31/foo mntpoint/dir_32/foo mntpoint/dir_33/foo mntpoint/dir_34/foo mntpoint/dir_35/foo mntpoint/dir_36/foo mntpoint/dir_37/foo mntpoint/dir_38/foo mntpoint/dir_39/foo mntpoint/dir_3/foo mntpoint/dir_40/foo mntpoint/dir_41/foo mntpoint/dir_42/foo mntpoint/dir_43/foo mntpoint/dir_44/foo mntpoint/dir_45/foo mntpoint/dir_46/foo mntpoint/dir_47/foo mntpoint/dir_48/foo mntpoint/dir_49/foo mntpoint/dir_4/foo mntpoint/dir_50/foo mntpoint/dir_51/foo mntpoint/dir_52/foo mntpoint/dir_53/foo mntpoint/dir_54/foo mntpoint/dir_55/foo mntpoint/dir_56/foo mntpoint/dir_57/foo mntpoint/dir_58/foo mntpoint/dir_59/foo mntpoint/dir_5/foo mntpoint/dir_60/foo mntpoint/dir_61/foo mntpoint/dir_62/foo mntpoint/dir_63/foo mntpoint/dir_64/foo mntpoint/dir_65/foo mntpoint/dir_66/foo mntpoint/dir_67/foo mntpoint/dir_68/foo mntpoint/dir_69/foo mntpoint/dir_6/foo mntpoint/dir_70/foo mntpoint/dir_71/foo mntpoint/dir_72/foo mntpoint/dir_73/foo mntpoint/dir_74/foo mntpoint/dir_75/foo mntpoint/dir_76/foo mntpoint/dir_77/foo mntpoint/dir_78/foo mntpoint/dir_79/foo mntpoint/dir_7/foo mntpoint/dir_80/foo mntpoint/dir_81/foo mntpoint/dir_82/foo mntpoint/dir_83/foo mntpoint/dir_84/foo mntpoint/dir_85/foo mntpoint/dir_86/foo mntpoint/dir_87/foo mntpoint/dir_88/foo mntpoint/dir_89/foo mntpoint/dir_8/foo mntpoint/dir_90/foo mntpoint/dir_91/foo mntpoint/dir_92/foo mntpoint/dir_93/foo mntpoint/dir_94/foo mntpoint/dir_95/foo mntpoint/dir_96/foo mntpoint/dir_97/foo mntpoint/dir_98/foo mntpoint/dir_99/foo mntpoint/dir_9/foo
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
+Hello world
++ ./my_format floppy.img
+sector_size: 512
+sectors_per_cluster: 1
+reserved_sector_count: 1
+number_of_fats: 2
+number_of_dirents: 224
+sector_count: 2880
++ sudo umount mntpoint
+=====================================================================
+------Code-----
+------alloc-----
+------free-----
+my_format.c:        // Step 3. Set direntries as free (0xe5) according to the fat12.pdf.
+my_format.c:        // that mark them free. In that case it will be possible to perform
+------open-----
+my_format.c:int fid; /* global variable set by the open() function */
+my_format.c:         if((fid = open (argv[one], O_RDWR|O_CREAT, 0644))  < zero )
+------close-----
+my_format.c:        close(fid);
+
+=====================================================================
+
